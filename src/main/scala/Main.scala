@@ -3,8 +3,14 @@
 
   val nums: List[Int] = List(1, 2, 3, 4)
 
+  // Util.max
   println(Util.max(nums, (x: Int, y: Int) => x - y))
+
+  // Util.map
   Util.map(nums,(x:Int)=>x*2,(y:Int)=>"student "+y).foreach(s=>println(s))
+
+  // Util.isSorted
+  println("is 'nums' sorted? " + Util.isSorted(nums,(x:Int,y:Int)=>x<=y))
 
 object Util {
 
@@ -16,5 +22,10 @@ object Util {
   // given a list of As, translate each A to B and each B to C
   def map[A,B,C](list: List[A], _AtoB: (a: A) => B, _BtoC: (b: B) => C): List[C] =
     list.map(a => _AtoB(a)).map(b => _BtoC(b))
+
+  // given an list of As and a comparator, return true if list is sorted
+  def isSorted[A](list: List[A], comparator: (x: A, y: A) => Boolean): Boolean = list.length match
+    case 1 => true
+    case default => if comparator(list(0),list(1)) then isSorted(list.filter(_ != list(0)), comparator) else false
 
 }
