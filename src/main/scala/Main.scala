@@ -2,6 +2,8 @@
   println("Hello world!")
 
   val nums: List[Int] = List(1, 2, 3, 4)
+  val vs = Array(14.0, 14.0, 1.0, 2.0)
+  val ps = Array(0.5, 0.5, 0.25, 0.25)
 
   // Util.max
   println(Util.max(nums, (x: Int, y: Int) => x - y))
@@ -11,6 +13,9 @@
 
   // Util.isSorted
   println("is 'nums' sorted? " + Util.isSorted(nums,(x:Int,y:Int)=>x<=y))
+
+  // Util.probs
+  println("do probabilities match? " + Util.probs(vs).sameElements(ps))
 
 object Util {
 
@@ -27,5 +32,9 @@ object Util {
   def isSorted[A](list: List[A], comparator: (x: A, y: A) => Boolean): Boolean = list.length match
     case 1 => true
     case default => if comparator(list(0),list(1)) then isSorted(list.filter(_ != list(0)), comparator) else false
+
+  // given an array of doubles, find probability for each i in array to appear
+  def probs(array: Array[Double]): Array[Double] = 
+    array.map(a => array.groupBy(identity).mapValues(_.size / array.length.toDouble)(a) ) 
 
 }
