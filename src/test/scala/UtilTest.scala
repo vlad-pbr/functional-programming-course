@@ -55,4 +55,11 @@ class UtilTest extends munit.FunSuite {
     assertNotEquals(zscore < (0.294) - 0.001 || zscore > (0.294) + 0.001, true )
   }
 
+  // Util.pearson
+  test("Util.pearson") {
+    val xs = Array(1.0, 2.0, 3.0, 4.0, 5.0)
+    val ys = Array(3.0, 6.0, 9.0, 12.0, 15.0)
+    assertNotEquals(Util.pearson(xs, ys) < 1.0 - 0.0001, true)
+  }
+
 }

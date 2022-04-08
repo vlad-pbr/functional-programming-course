@@ -40,7 +40,20 @@ object Util {
   def variance(array: Array[Double]): Double = 
     array.map(a => (1 / array.length.toDouble) * pow( a - mu(array), 2 ) ).sum
 
+  // calculate standard deviation from given variance
+  def standard_deviation_from_variance(variance: Double): Double =
+    sqrt(variance)
+
   // calculate z-score from given array
   def zscore(array: Array[Double], x: Double) = 
-    (x - mu(array)) / sqrt(variance(array))
+    (x - mu(array)) / standard_deviation_from_variance(variance(array))
+
+  // calculate covariance from two arrays
+  def cov(arrayX: Array[Double], arrayY: Array[Double]): Double =
+    mu(arrayX.zipWithIndex.map(a => (a._1 - mu(arrayX)) * (arrayY(a._2) - mu(arrayY)) ))
+
+  // calculate pearson correlation from two arrays
+  def pearson(arrayX: Array[Double], arrayY: Array[Double]): Double =
+    cov(arrayX, arrayY) / ( standard_deviation_from_variance(variance(arrayX)) * standard_deviation_from_variance(variance(arrayY)) )
+
 }
