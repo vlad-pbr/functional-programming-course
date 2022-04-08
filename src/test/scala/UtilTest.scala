@@ -48,4 +48,11 @@ class UtilTest extends munit.FunSuite {
     assertNotEquals(variance < 1.83 || variance > 1.85, true)
   }
 
+  // Util.zscore
+  test("Util.zscore") {
+    val xs = Array(1.0, 1.0, 3.0, 4.0, 4.0)
+    val zscore = Util.zscore(xs, 3.0)
+    assertNotEquals(zscore < (0.294) - 0.001 || zscore > (0.294) + 0.001, true )
+  }
+
 }

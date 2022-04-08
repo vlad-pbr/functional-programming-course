@@ -1,6 +1,7 @@
 import scala.collection.MapView
 import scala.math.log10
 import scala.math.pow
+import scala.math.sqrt
 
 object Util {
 
@@ -38,4 +39,8 @@ object Util {
   // calculate variance from given array
   def variance(array: Array[Double]): Double = 
     array.map(a => (1 / array.length.toDouble) * pow( a - mu(array), 2 ) ).sum
+
+  // calculate z-score from given array
+  def zscore(array: Array[Double], x: Double) = 
+    (x - mu(array)) / sqrt(variance(array))
 }
