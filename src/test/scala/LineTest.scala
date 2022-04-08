@@ -18,5 +18,11 @@ class PointTest extends munit.FunSuite {
     val y = line.f(4)
     assertNotEquals(y < 7.84 || y > 7.86, true)
   }
-  
+
+  // distance from line is calculated correctly
+  test("distance from line is calculated correctly") {
+    val distance = line.dist(new Point(4,8))
+    assertNotEquals(distance < 0.13 || distance > 0.15, true)
+  }
+
 }

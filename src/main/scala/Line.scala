@@ -1,3 +1,5 @@
+import math.abs
+
 class Line(val points: Array[Point]) {
 
 	val a = Util.cov(points.map(p => p.x), points.map(p => p.y)) / Util.variance(points.map(p => p.x))
@@ -6,5 +8,7 @@ class Line(val points: Array[Point]) {
 	def f(x: Double): Double = 
 		(a * x) + b
 
-	def dist(point: Point): Double = {0.0}
+	def dist(point: Point): Double = 
+		abs(f(point.x) - point.y)
+		
 }
