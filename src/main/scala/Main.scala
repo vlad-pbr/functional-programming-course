@@ -1,9 +1,12 @@
+import scala.collection.MapView
+import scala.math.log10
 @main def hello: Unit = 
   println("Hello world!")
 
   val nums: List[Int] = List(1, 2, 3, 4)
   val vs = Array(14.0, 14.0, 1.0, 2.0)
   val ps = Array(0.5, 0.5, 0.25, 0.25)
+  val xs = Array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
 
   // Util.max
   println(Util.max(nums, (x: Int, y: Int) => x - y))
@@ -16,6 +19,9 @@
 
   // Util.probs
   println("do probabilities match? " + Util.probs(vs).sameElements(ps))
+
+  // Util.entropy
+  println("is entropy correct? " + (Util.entropy(xs) >= 2.584 && Util.entropy(xs) <= 2.585))
 
 object Util {
 
@@ -37,4 +43,12 @@ object Util {
   def probs(array: Array[Double]): Array[Double] = 
     array.map(a => array.groupBy(identity).mapValues(_.size / array.length.toDouble)(a) ) 
 
+  // calculate entropy from given array
+  def entropy(array: Array[Double]): Double =
+
+    def entropyWithProbs(arr: Array[Double], probsMap: MapView[Double, Double]): Double = arr match
+      case a if a.length == 0 => 0.0
+      case default => ( probsMap(arr(0)) * (log10(probsMap(arr(0))) / log10(2.0) ) ) + entropyWithProbs(arr.filter(_ != arr(0)), probsMap)
+
+    -entropyWithProbs(array, array.groupBy(identity).mapValues(_.size / array.length.toDouble))
 }
