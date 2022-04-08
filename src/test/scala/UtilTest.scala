@@ -1,4 +1,3 @@
-
 class UtilTest extends munit.FunSuite {
 
   // Util.max
