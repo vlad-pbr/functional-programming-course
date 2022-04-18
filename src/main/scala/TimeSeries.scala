@@ -2,17 +2,25 @@ import scala.io.Source
 
 class TimeSeries(csvFileName: String) {
 
+  val features = (() => { 
+    
+    val source = Source.fromFile(csvFileName)
+    val values = Vector.empty ++ source.getLines().next().split(",")
+    source.close()
+
+    values
+
+  })() 
+
   private val featureMap = (() => { 
     
     val source = Source.fromFile(csvFileName)
-    val values = source.getLines().next().split(",").zipWithIndex.map(key => ((key._1, source.reset().getLines().drop(1).zipWithIndex.map(line => (line._2, line._1.split(",")(key._2).toDouble)).toMap))).toMap
+    val values = features.zipWithIndex.map(key => ((key._1, source.reset().getLines().drop(1).zipWithIndex.map(line => (line._2, line._1.split(",")(key._2).toDouble)).toMap))).toMap
     source.close()
 
     values
 
   })()
-
-  val features = Vector.empty ++ featureMap.keySet
 
   // given name of a feature return in O(1) its value series
   def getValues(feature: String): Option[Vector[Double]] = features.contains(feature) match {
