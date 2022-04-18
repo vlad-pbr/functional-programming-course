@@ -1,6 +1,7 @@
 import scala.math.log10
 import scala.math.pow
 import scala.math.sqrt
+import scala.math.abs
 
 object Util {
 
@@ -48,5 +49,9 @@ object Util {
   // calculate pearson correlation from two arrays
   def pearson(arrayX: Array[Double], arrayY: Array[Double]): Double =
     cov(arrayX, arrayY) / ( sqrt(variance(arrayX)) * sqrt(variance(arrayY)) )
+
+  // produce a map of best correlations for each feature in a timeseries
+  def getBestCorrelations(data: TimeSeries): Map[String,String] =
+    data.features.zipWithIndex.map(feature => (feature._1, data.features.drop(feature._2 + 1).map(cofeature => (cofeature, abs(Util.pearson( data.getValues(feature._1).get.toArray, data.getValues(cofeature).get.toArray ))) ).toMap match { case m if (m.size == 0) => ""; case m => m.maxBy(_._2) match { case max if (max._2 < 0.9) => ""; case max => max._1 } } ) ).toMap
 
 }

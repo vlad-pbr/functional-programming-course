@@ -2,15 +2,18 @@ class PointTest extends munit.FunSuite {
 
   val points = Array(new Point(0,0.1), new Point(1,2.01), new Point(5.1,10))
   val line = new Line(points)
+  val customLine = new Line(points, Option(2.2), Option(4.4))
 
   // 'a' is calculated correctly
   test("'a' is calculated correctly") {
     assertNotEquals(line.a < 1.93 || line.a > 1.95, true)
+    assertEquals(customLine.a, 2.2)
   }
 
   // 'b' is calculated correctly
   test("'b' is calculated correctly") {
     assertNotEquals(line.b < 0.084 || line.b > 0.086, true)
+    assertEquals(customLine.b, 4.4)
   }
 
   // f(x) is calculated correctly

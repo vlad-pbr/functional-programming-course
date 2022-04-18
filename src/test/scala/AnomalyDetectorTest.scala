@@ -8,4 +8,9 @@ class AnomalyDetectorTest extends munit.FunSuite {
 		assertEquals(ZAnomalyDetector.detect(ZAnomalyDetector.learn(timeSeriesTrain), timeSeriesTest), Vector(("D", 2)))
 	}
 
+	// LinearRegAnomalyDetector
+	test("LinearRegAnomalyDetector") {
+		assertEquals(LinearRegAnomalyDetector.detect(LinearRegAnomalyDetector.learn(timeSeriesTrain), timeSeriesTest), Vector(("C,D", 2)))
+	}
+
 }
