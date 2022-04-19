@@ -56,7 +56,7 @@ object Util {
 
   // combine two timeseries columns to an array of points
   def buildPoints(data: TimeSeries, feature: String, cofeature: String): Array[Point] = 
-    data.getValues(feature).get.zipWithIndex.map(value => Point(value._1, data.getValues(cofeature).get(value._2) ) ).toArray
+    data.getValues(feature).get.zipWithIndex.map(value => new Point(value._1, data.getValues(cofeature).get(value._2) ) ).toArray
 
   // calculate euclidean distance from two points
   def euclideanDist(p1: Point, p2: Point): Double = 
