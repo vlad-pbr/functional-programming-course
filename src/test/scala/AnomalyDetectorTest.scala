@@ -18,10 +18,9 @@ class AnomalyDetectorTest extends munit.FunSuite {
 		assertEquals(SumSqrAnomalyDetector.detect(SumSqrAnomalyDetector.learn(timeSeriesTrain), timeSeriesTest), Vector(("C,D", 0), ("C,D", 2), ("C,D", 3)))
 	}
 
-	// // HybridAnomalyDetector
-	// test("HybridAnomalyDetector") {
-	// 	println(HybridAnomalyDetector.learn(timeSeriesTrain))
-	// 	assertEquals(true, true)
-	// }
+	// HybridAnomalyDetector
+	test("HybridAnomalyDetector") {
+		assertEquals(HybridAnomalyDetector.detect(HybridAnomalyDetector.learn(timeSeriesTrain), timeSeriesTest), Vector(("C,D", 2), ("D", 2)))
+	}
 
 }
