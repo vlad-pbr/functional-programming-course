@@ -51,7 +51,19 @@ object Util {
     cov(arrayX, arrayY) / ( sqrt(variance(arrayX)) * sqrt(variance(arrayY)) )
 
   // produce a map of best correlations for each feature in a timeseries
-  def getBestCorrelations(data: TimeSeries): Map[String,String] =
-    data.features.zipWithIndex.map(feature => (feature._1, data.features.drop(feature._2 + 1).map(cofeature => (cofeature, abs(Util.pearson( data.getValues(feature._1).get.toArray, data.getValues(cofeature).get.toArray ))) ).toMap match { case m if (m.size == 0) => ""; case m => m.maxBy(_._2) match { case max if (max._2 < 0.9) => ""; case max => max._1 } } ) ).toMap
+  def getBestCorrelations(data: TimeSeries, _min: Double, _max: Double): Map[String,String] =
+    data.features.zipWithIndex.map(feature => (feature._1, data.features.drop(feature._2 + 1).map(cofeature => (cofeature, abs(Util.pearson( data.getValues(feature._1).get.toArray, data.getValues(cofeature).get.toArray ))) ).toMap match { case m if (m.size == 0) => ""; case m => m.maxBy(_._2) match { case max if (max._2 <= _min || max._2 >= _max) => ""; case max => max._1 } } ) ).toMap
+
+  // combine two timeseries columns to an array of points
+  def buildPoints(data: TimeSeries, feature: String, cofeature: String): Array[Point] = 
+    data.getValues(feature).get.zipWithIndex.map(value => Point(value._1, data.getValues(cofeature).get(value._2) ) ).toArray
+
+  // calculate euclidean distance from two points
+  def euclideanDist(p1: Point, p2: Point): Double = 
+    sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2))
+
+  // calculate square sum from one point to others
+  def sqrSum(points: Array[Point], p: Point): Double =
+    points.collect{ case point if (point != p) => pow(euclideanDist(p, point), 2) }.sum
 
 }
