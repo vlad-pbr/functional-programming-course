@@ -22,3 +22,24 @@ Create a class called `Line` which represents a linear regression line, can cons
 
 - f(x: Double): Double
 - dist(point: Point): Double
+
+## Milestone #2
+
+Implement TimeSeries object which receives a path to a CSV file of time series data and stores it for easy access. Implement the following:
+
+- features[Vector(String)]
+- getValues(feature: String): Option[Vector[Double]]
+- getValues(feature: String, r: Range): Option[Vector[Double]]
+- getValue(feature: String, timeStep: Int): Option[Double]
+
+Implement 4 different anomaly detection algorithms which learn from TimeSeries data and detect faults in other data:
+
+- ZAnomalyDetector
+- LinearRegAnomalyDetector
+- SumSqrAnomalyDetector
+- HybridAnomalyDetector
+
+Each uses a generic `AnomalyDetector` trait which requires the following methods to be implemented:
+
+- learn(normal: TimeSeries): Map[String,String]
+- detect(model: Map[String,String], test: TimeSeries): Vector[(String, Int)]
